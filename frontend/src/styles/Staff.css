@@ -1,0 +1,7 @@
+/* Staff.css */
+.staff-container {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* or center for vertical centering */
+}

@@ -1,57 +1,65 @@
-import { useEffect, useRef } from 'react';
-import { Factory } from 'vexflow';
+import { useEffect, useRef, useState } from 'react';
+import { Renderer, Stave, StaveNote, Voice, Formatter } from 'vexflow';
+import '../styles/Staff.css'; // Ensure you have the correct path to your CSS file
 
-const Staff = () => {
+function getRandomNote() {
+  const noteNames = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
+  const octaves = [4, 5]; // You can adjust octaves as needed
+  const name = noteNames[Math.floor(Math.random() * noteNames.length)];
+  const octave = octaves[Math.floor(Math.random() * octaves.length)];
+  return `${name}/${octave}`;
+}
+
+function Staff() {
     const containerRef = useRef(null);
+    const [notes, setNotes] = useState([]);
 
-    useEffect(() => {
-        if (containerRef.current) {
-            // Clear any existing content
-            containerRef.current.innerHTML = '';
+    // Generate random notes when the component mounts or when "Randomize" is clicked
+    const randomizeNotes = () => {
+        const newNotes = Array.from({ length: 4 }, () =>
+            new StaveNote({ keys: [getRandomNote()], duration: 'q' })
+        );
+        setNotes(newNotes);
+    };
 
-            // Create VexFlow factory with dimensions
-            const vf = new Factory({
-                renderer: {
-                    elementId: containerRef.current,
-                    width: 1000,
-                    height: 300
-                }
-            });
+    useEffect(() => { 
+        if (containerRef.current && notes.length > 0) {
+        containerRef.current.innerHTML = '';
 
-            // Get the rendering context
-            const context = vf.getContext();
-            context.scale(2, 2); // Scale the context if needed
+        const renderer = new Renderer(containerRef.current, Renderer.Backends.SVG);
+        renderer.resize(1000, 400);
 
-            // Create a system (a group of staves)
-            const score = vf.EasyScore();
-            const system = vf.System();
+        const context = renderer.getContext();
+        const scale = 1.4;
+        context.scale(scale, scale);
 
-            // Add a stave with some notes
-            system
-                .addStave({
-                    voices: [
-                        score.voice(score.notes('C#5/q, B4, A4, G#4', { stem: 'up' }))
-                    ]
-                })
-                .addClef('treble')
-                .addTimeSignature('4/4');
+            
+        const staffWidth = Math.floor(window.innerWidth * 0.9);
+        renderer.resize(staffWidth, 600);
 
-            // Draw it!
-            vf.draw();
+        const stave = new Stave(20, 40, 400);
+        stave.addClef('treble').addTimeSignature('4/4');
+        stave.setContext(context).draw();
+
+        const voice = new Voice({ num_beats: 4, beat_value: 4 });
+        voice.addTickables(notes);
+
+        new Formatter().joinVoices([voice]).format([voice], 400);
+        voice.draw(context, stave);
         }
-    }, []); // Empty dependency array means this effect runs once on mount
+    }, [notes]);
 
-    return (
-        <div 
-            ref={containerRef}
-            className="staff"
-            style={{ 
-                width: '100%',
-                maxWidth: '500px',
-                margin: '20px auto'
-            }}
-        />
-    );
-};
+// Generate initial notes on mount
+useEffect(() => {
+randomizeNotes();
+}, []);
+
+  return (
+    <div>
+      <button onClick={randomizeNotes}>Randomize Notes</button>
+      <div ref={containerRef} className='staff-container'></div>
+    </div>
+  );
+}
 
 export default Staff;
