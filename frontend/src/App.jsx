@@ -4,13 +4,18 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Nav from './components/Nav'
 import Staff from './components/Staff'
+import MidiInput from './components/MidiInput'
 
 function App() {
   const [count, setCount] = useState(0)
+  const handleMidiNote = (note, velocity) => {
+    console.log(`MIDI Note: ${note}, Velocity: ${velocity}`);
+  }
 
   return (
     <>
       <div>
+        <MidiInput onMidiNote={handleMidiNote} />
         <Staff/>
       </div>
     </>
