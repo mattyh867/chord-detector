@@ -9,7 +9,6 @@ import MidiInput from './components/MidiInput'
 function App() {
   const [count, setCount] = useState(0)
   const handleMidiNote = (note, velocity) => {
-    console.log(`MIDI Note: ${note}, Velocity: ${velocity}`);
   }
 
   return (
