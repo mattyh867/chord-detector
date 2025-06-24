@@ -9,3 +9,38 @@
 .midi-input div {
   color: black;
 }
+
+.recording-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  color: black;
+  transition: background-color 0.2s ease;
+}
+
+.recording-button--recording {
+  background-color: #ff4444;
+}
+
+.recording-button--recording:hover {
+  background-color: #cc3333;
+}
+
+.recording-button--idle {
+  background-color: #44aa44;
+}
+
+.recording-button--idle:hover {
+  background-color: #338833;
+}
+
+.midi-status {
+  margin-bottom: 10px;
+}
+
+.recording-status {
+  margin-top: 10px;
+  font-weight: bold;
+}
