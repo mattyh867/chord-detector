@@ -1,9 +1,5 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import Nav from './components/Nav'
-import Staff from './components/Staff'
+import './styles/App.css'
 import MidiInput from './components/MidiInput'
 
 function App() {
@@ -15,7 +11,6 @@ function App() {
     <>
       <div>
         <MidiInput onMidiNote={handleMidiNote} />
-        <Staff/>
       </div>
     </>
   )

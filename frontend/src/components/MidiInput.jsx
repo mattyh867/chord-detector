@@ -1,3 +1,4 @@
+import '../styles/MidiInput.css';
 import { useEffect, useState } from 'react';
 
 function MidiInput({ onMidiNote, onRecordingComplete }) {
@@ -89,7 +90,7 @@ function MidiInput({ onMidiNote, onRecordingComplete }) {
         onClick={toggleRecording}
         style={{
           backgroundColor: isRecording ? '#ff4444' : '#44aa44',
-          color: 'white',
+          color: 'black',
           padding: '10px 20px',
           border: 'none',
           borderRadius: '5px',
