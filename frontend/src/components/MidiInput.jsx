@@ -2,9 +2,11 @@ import '../styles/MidiInput.css';
 import { useMidiAccess } from '../hooks/useMidiAccess';
 import { useMidiTracking } from '../hooks/useMidiRecording';
 
-function MidiInput({ onMidiNote }) {
+function MidiInput({ onMidiNote, playedNotes, resetNotes }) {
   const { midiSupported, midiInputs, attachMidiHandler, detachMidiHandler } = useMidiAccess();
-  const { playedNotes, resetNotes } = useMidiTracking(
+  
+  // Set up MIDI tracking without internal state
+  useMidiTracking(
     onMidiNote,
     attachMidiHandler,
     detachMidiHandler

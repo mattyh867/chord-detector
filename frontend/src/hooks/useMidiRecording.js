@@ -9,8 +9,6 @@ const createNoteData = (note, velocity) => ({
 });
 
 export const useMidiTracking = (onMidiNote, attachMidiHandler, detachMidiHandler) => {
-  const [playedNotes, setPlayedNotes] = useState([]);
-
   const handleMidiMessage = useCallback((msg) => {
     const [status, note, velocity] = msg.data;
     
@@ -18,14 +16,6 @@ export const useMidiTracking = (onMidiNote, attachMidiHandler, detachMidiHandler
       return;
     }
 
-    setPlayedNotes(prev => {
-      const noteExists = prev.some(noteData => noteData.note === note);
-      if (noteExists) {
-        return prev;
-      }
-      const noteData = createNoteData(note, velocity);
-      return [...prev, noteData];
-    });
     onMidiNote?.(note, velocity);
   }, [onMidiNote]);
 
@@ -36,17 +26,4 @@ export const useMidiTracking = (onMidiNote, attachMidiHandler, detachMidiHandler
       detachMidiHandler();
     };
   }, [handleMidiMessage, attachMidiHandler, detachMidiHandler]);
-
-  useEffect(() => {
-    console.log('Current played notes:', playedNotes);
-  }, [playedNotes]);
-
-  const resetNotes = useCallback(() => {
-    setPlayedNotes([]);
-  }, []);
-
-  return {
-    playedNotes,
-    resetNotes
-  };
 };

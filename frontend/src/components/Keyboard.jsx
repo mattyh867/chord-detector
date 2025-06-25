@@ -52,8 +52,11 @@ const getBlackKeyPosition = (midiNote) => {
 
 const { whiteKeys: WHITE_KEYS, blackKeys: BLACK_KEYS } = generatePianoKeys();
 
-function Keyboard({ onNotePlay, onNoteStop }) {
+function Keyboard({ onNotePlay, onNoteStop, playedNotes = [] }) {
   const [pressedKeys, setPressedKeys] = useState(new Set());
+  
+  // Create a Set of MIDI notes that have been played for quick lookup
+  const playedMidiNotes = new Set(playedNotes.map(noteData => noteData.midi));
 
   const handleKeyDown = useCallback((note) => {
     if (pressedKeys.has(note)) return;
@@ -87,7 +90,7 @@ function Keyboard({ onNotePlay, onNoteStop }) {
         {WHITE_KEYS.map((key) => (
           <button
             key={key.note}
-            className={`white-key ${pressedKeys.has(key.note) ? 'pressed' : ''}`}
+            className={`white-key ${pressedKeys.has(key.note) ? 'pressed' : ''} ${playedMidiNotes.has(key.note) ? 'highlighted' : ''}`}
             onMouseDown={() => handleMouseDown(key.note)}
             onMouseUp={() => handleMouseUp(key.note)}
             onMouseLeave={() => handleMouseUp(key.note)}
@@ -100,7 +103,7 @@ function Keyboard({ onNotePlay, onNoteStop }) {
           {BLACK_KEYS.map((key) => (
             <button
               key={key.note}
-              className={`black-key ${pressedKeys.has(key.note) ? 'pressed' : ''}`}
+              className={`black-key ${pressedKeys.has(key.note) ? 'pressed' : ''} ${playedMidiNotes.has(key.note) ? 'highlighted' : ''}`}
               style={{ left: `${key.position * 27.6}px` }}
               onMouseDown={() => handleMouseDown(key.note)}
               onMouseUp={() => handleMouseUp(key.note)}
