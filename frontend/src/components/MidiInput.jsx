@@ -27,12 +27,16 @@ function MidiInput({ onMidiNote }) {
       >
         Reset Notes
       </button>
-      {playedNotes.length > 0 && (
-        <div className="recording-status">
-          <p>Played {playedNotes.length} notes</p>
-          <p>Notes: {playedNotes.map(noteData => noteData.note).join(', ')}</p>
-        </div>
-      )}
+      <div className="recording-status">
+        {playedNotes.length > 0 ? (
+          <>
+            <p>Played {playedNotes.length} notes</p>
+            <p>Notes: {playedNotes.map(noteData => noteData.note).join(', ')}</p>
+          </>
+        ) : (
+          <p>No notes played yet</p>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,23 +1,56 @@
 import { useState, useCallback, useEffect } from 'react';
 import '../styles/Keyboard.css';
 
-const WHITE_KEYS = [
-  { note: 60, name: 'C', keyCode: 'KeyA' },
-  { note: 62, name: 'D', keyCode: 'KeyS' },
-  { note: 64, name: 'E', keyCode: 'KeyD' },
-  { note: 65, name: 'F', keyCode: 'KeyF' },
-  { note: 67, name: 'G', keyCode: 'KeyG' },
-  { note: 69, name: 'A', keyCode: 'KeyH' },
-  { note: 71, name: 'B', keyCode: 'KeyJ' },
-];
+// Generate 88-key piano (A0 to C8, MIDI notes 21-108)
+const generatePianoKeys = () => {
+  const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const whiteKeyPattern = [0, 2, 4, 5, 7, 9, 11]; // C, D, E, F, G, A, B
+  const blackKeyPattern = [1, 3, 6, 8, 10]; // C#, D#, F#, G#, A#
+  
+  const whiteKeys = [];
+  const blackKeys = [];
+  
+  // Start from A0 (MIDI note 21) to C8 (MIDI note 108)
+  for (let midiNote = 21; midiNote <= 108; midiNote++) {
+    const noteIndex = midiNote % 12;
+    const octave = Math.floor(midiNote / 12) - 1;
+    const noteName = noteNames[noteIndex];
+    
+    if (whiteKeyPattern.includes(noteIndex)) {
+      whiteKeys.push({
+        note: midiNote,
+        name: `${noteName}${octave}`,
+        keyCode: null // Remove keyboard mapping for simplicity with 88 keys
+      });
+    } else if (blackKeyPattern.includes(noteIndex)) {
+      blackKeys.push({
+        note: midiNote,
+        name: `${noteName}${octave}`,
+        keyCode: null,
+        position: getBlackKeyPosition(midiNote)
+      });
+    }
+  }
+  
+  return { whiteKeys, blackKeys };
+};
 
-const BLACK_KEYS = [
-  { note: 61, name: 'C#', keyCode: 'KeyW', position: 1 },
-  { note: 63, name: 'D#', keyCode: 'KeyE', position: 2 },
-  { note: 66, name: 'F#', keyCode: 'KeyT', position: 4 },
-  { note: 68, name: 'G#', keyCode: 'KeyY', position: 5 },
-  { note: 70, name: 'A#', keyCode: 'KeyU', position: 6 },
-];
+const getBlackKeyPosition = (midiNote) => {
+  // Simply count how many white keys come before this black key
+  let whiteKeyCount = 0;
+  
+  for (let i = 21; i < midiNote; i++) {
+    if ([0, 2, 4, 5, 7, 9, 11].includes(i % 12)) { // White keys: C, D, E, F, G, A, B
+      whiteKeyCount++;
+    }
+  }
+  
+  // Black key should be positioned between white keys
+  // A#0 should be between A0 and B0, so slightly left of center
+  return whiteKeyCount - 0.3;
+};
+
+const { whiteKeys: WHITE_KEYS, blackKeys: BLACK_KEYS } = generatePianoKeys();
 
 function Keyboard({ onNotePlay, onNoteStop }) {
   const [pressedKeys, setPressedKeys] = useState(new Set());
@@ -46,36 +79,7 @@ function Keyboard({ onNotePlay, onNoteStop }) {
     handleKeyUp(note);
   }, [handleKeyUp]);
 
-  useEffect(() => {
-    const keyMap = new Map();
-    [...WHITE_KEYS, ...BLACK_KEYS].forEach(key => {
-      keyMap.set(key.keyCode, key.note);
-    });
-
-    const handleKeyboardDown = (event) => {
-      const note = keyMap.get(event.code);
-      if (note && !event.repeat) {
-        event.preventDefault();
-        handleKeyDown(note);
-      }
-    };
-
-    const handleKeyboardUp = (event) => {
-      const note = keyMap.get(event.code);
-      if (note) {
-        event.preventDefault();
-        handleKeyUp(note);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyboardDown);
-    window.addEventListener('keyup', handleKeyboardUp);
-
-    return () => {
-      window.removeEventListener('keydown', handleKeyboardDown);
-      window.removeEventListener('keyup', handleKeyboardUp);
-    };
-  }, [handleKeyDown, handleKeyUp]);
+  // Removed keyboard event handling for 88-key piano (too many keys to map)
 
   return (
     <div className="keyboard-container">
@@ -89,7 +93,6 @@ function Keyboard({ onNotePlay, onNoteStop }) {
             onMouseLeave={() => handleMouseUp(key.note)}
           >
             <span className="key-label">{key.name}</span>
-            <span className="key-hint">{key.keyCode.replace('Key', '')}</span>
           </button>
         ))}
         
@@ -98,13 +101,12 @@ function Keyboard({ onNotePlay, onNoteStop }) {
             <button
               key={key.note}
               className={`black-key ${pressedKeys.has(key.note) ? 'pressed' : ''}`}
-              style={{ left: `${(key.position - 1) * 60 + 42}px` }}
+              style={{ left: `${key.position * 27.6}px` }}
               onMouseDown={() => handleMouseDown(key.note)}
               onMouseUp={() => handleMouseUp(key.note)}
               onMouseLeave={() => handleMouseUp(key.note)}
             >
               <span className="key-label">{key.name}</span>
-              <span className="key-hint">{key.keyCode.replace('Key', '')}</span>
             </button>
           ))}
         </div>
