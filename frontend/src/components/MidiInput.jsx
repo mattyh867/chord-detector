@@ -1,6 +1,7 @@
 import '../styles/MidiInput.css';
 import { useMidiAccess } from '../hooks/useMidiAccess';
 import { useMidiTracking } from '../hooks/useMidiRecording';
+import { Chord } from "@tonaljs/tonal";
 
 function MidiInput({ onMidiNote, playedNotes, resetNotes }) {
   const { midiSupported, midiInputs, attachMidiHandler, detachMidiHandler } = useMidiAccess();
@@ -11,6 +12,10 @@ function MidiInput({ onMidiNote, playedNotes, resetNotes }) {
     attachMidiHandler,
     detachMidiHandler
   );
+
+  // Chord identification logic
+  const chordNotes = playedNotes.map(noteData => noteData.note);
+  const chord = Chord.detect(chordNotes);
 
   if (!midiSupported) {
     return (
@@ -34,6 +39,7 @@ function MidiInput({ onMidiNote, playedNotes, resetNotes }) {
           <>
             <p>Played {playedNotes.length} notes</p>
             <p>Notes: {playedNotes.map(noteData => noteData.note).join(', ')}</p>
+            <p>Chord: {chord}</p>
           </>
         ) : (
           <p>No notes played yet</p>
