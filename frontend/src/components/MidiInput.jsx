@@ -15,7 +15,7 @@ function MidiInput({ onMidiNote, playedNotes, resetNotes }) {
 
   // Chord identification logic
   const chordNotes = playedNotes.map(noteData => noteData.note);
-  const chord = Chord.detect(chordNotes).join(', ') || 'No chord detected';
+  const chord = Chord.detect(chordNotes).join(', ') || 'Cannot detect chord';
 
   if (!midiSupported) {
     return (
