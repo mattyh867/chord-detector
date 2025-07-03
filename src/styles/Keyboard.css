@@ -5,6 +5,7 @@
   background: #F0EAD2;
   border-radius: 12px;
   margin: 10px auto;
+  transform: translateX(-54px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: fit-content;
