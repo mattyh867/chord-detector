@@ -3,7 +3,7 @@
 
 Chord Detector allows users to identify chords using MIDI input or the on-screen piano on the webpage.
 
-<img src="public/piano.svg" alt="Chord Detector Logo" scale="0.3"/>
+<img src="public/piano.svg" alt="Chord Detector Logo" width="300px"/>
 
 The app is hosted on Vercel at: https://chord-detector-five.vercel.app/
 
