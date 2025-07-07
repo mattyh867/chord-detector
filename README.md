@@ -6,7 +6,7 @@ Chord Detector allows users to identify chords using MIDI input or the on-screen
 The app is hosted on Vercel at: https://chord-detector-five.vercel.app/
 ## Tech Stack
 
-**Frontend:** ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+**Frontend:** ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB) ![HTML](https://img.shields.io/badge/HTML-5-E34F26?logo=html5&logoColor=white)
 
 **Server:** ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 
