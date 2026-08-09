@@ -28,16 +28,24 @@ function App() {
   }
 
   return (
-    <>
-      <div>
-        <MidiInput 
-          onMidiNote={handleMidiNote} 
-          playedNotes={playedNotes} 
-          resetNotes={resetNotes} 
-        />
-        <Keyboard onNotePlay={handleMidiNote} playedNotes={playedNotes} />
-      </div>
-    </>
+    <div className="app">
+      <header className="app-header">
+        <h1 className="app-title">
+          <img src="/piano.svg" alt="" />
+          Chord Detector
+        </h1>
+        <p className="app-subtitle">
+          Play notes on a MIDI keyboard or the piano below to identify the chord.
+        </p>
+      </header>
+
+      <MidiInput
+        onMidiNote={handleMidiNote}
+        playedNotes={playedNotes}
+        resetNotes={resetNotes}
+      />
+      <Keyboard onNotePlay={handleMidiNote} playedNotes={playedNotes} />
+    </div>
   )
 }
 

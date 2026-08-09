@@ -1,61 +1,140 @@
 .midi-input {
-  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 460px;
+  color: var(--ink);
 }
 
-.midi-input p {
-  color: black;
+.midi-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.midi-input div {
-  color: black;
+.midi-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+  background-color: var(--cream-deep);
+  border-radius: 999px;
+}
+
+.midi-status::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--sage-deep);
+}
+
+.midi-status--none::before {
+  background-color: var(--ink-muted);
 }
 
 .recording-status {
-  padding: 2rem;
-  width: 400px;
-  height: 200px;
-  margin: 10px auto;
-  border: 1rem solid #adc178;
-  border-radius: 5px;
-  font-size: 16px;
-  color: black;
-  background-color: #dde5b6;
-  font-weight: bold;
+  width: 100%;
+  min-height: 190px;
+  padding: 1.5rem;
+  margin: 0;
+  border: 2px solid var(--sage);
+  border-radius: 14px;
+  background-color: var(--pale-green);
+  box-shadow: 0 6px 20px rgba(74, 101, 41, 0.12);
+  color: var(--ink);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 1rem;
   text-align: center;
   overflow: hidden;
 }
 
+.readout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.readout-label {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.readout-value {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.readout-value--chord {
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.readout-empty {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+}
+
 .recording-button {
-  padding: 10px 20px;
+  padding: 0.55rem 1.25rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 999px;
   cursor: pointer;
-  font-size: 16px;
-  color: black;
-  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: var(--forest);
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.recording-button:hover {
+  background-color: var(--forest-deep);
+}
+
+.recording-button:active {
+  transform: translateY(1px);
+}
+
+.recording-button:disabled {
+  background-color: var(--sage);
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .recording-button--recording {
-  background-color: #ff4444;
+  background-color: #c0553f;
 }
 
 .recording-button--recording:hover {
-  background-color: #cc3333;
+  background-color: #a1442f;
 }
 
-.recording-button--idle {
-  background-color: #44aa44;
+.midi-unsupported {
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--sage);
+  border-radius: 14px;
+  background-color: var(--pale-green);
+  font-weight: 500;
+  text-align: center;
 }
-
-.recording-button--idle:hover {
-  background-color: #338833;
-}
-
-.midi-status {
-  margin-bottom: 10px;
-}
-

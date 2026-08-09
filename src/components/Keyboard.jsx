@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import '../styles/Keyboard.css';
 
 // Generate 88-key piano (A0 to C8, MIDI notes 21-108)
@@ -90,6 +90,8 @@ function Keyboard({ onNotePlay, onNoteStop, playedNotes = [] }) {
         {WHITE_KEYS.map((key) => (
           <button
             key={key.note}
+            type="button"
+            aria-label={key.name}
             className={`white-key ${pressedKeys.has(key.note) ? 'pressed' : ''} ${playedMidiNotes.has(key.note) ? 'highlighted' : ''}`}
             onMouseDown={() => handleMouseDown(key.note)}
             onMouseUp={() => handleMouseUp(key.note)}
@@ -98,13 +100,15 @@ function Keyboard({ onNotePlay, onNoteStop, playedNotes = [] }) {
             <span className="key-label">{key.name}</span>
           </button>
         ))}
-        
+
         <div className="black-keys">
           {BLACK_KEYS.map((key) => (
             <button
               key={key.note}
+              type="button"
+              aria-label={key.name}
               className={`black-key ${pressedKeys.has(key.note) ? 'pressed' : ''} ${playedMidiNotes.has(key.note) ? 'highlighted' : ''}`}
-              style={{ left: `${key.position * 27.6}px` }}
+              style={{ left: `calc(var(--white-key-unit) * ${key.position})` }}
               onMouseDown={() => handleMouseDown(key.note)}
               onMouseUp={() => handleMouseUp(key.note)}
               onMouseLeave={() => handleMouseUp(key.note)}

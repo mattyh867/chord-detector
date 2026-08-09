@@ -1,11 +1,27 @@
 :root {
+  /* Palette */
+  --cream: #f0ead2;
+  --cream-deep: #e6dfc0;
+  --pale-green: #dde5b6;
+  --sage: #adc178;
+  --sage-deep: #8ba660;
+  --forest: #6b8f47;
+  --forest-deep: #4a6529;
+  --ink: #2c3320;
+  --ink-muted: #6a7358;
+
+  /* Piano key metrics — shared by Keyboard.css and Keyboard.jsx */
+  --white-key-width: 27px;
+  --white-key-gap: 0.3px;
+  --white-key-unit: calc(var(--white-key-width) + var(--white-key-gap) * 2);
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #F0EAD2;
+  color-scheme: light;
+  color: var(--ink);
+  background-color: var(--cream);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,56 +29,41 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--cream);
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+a {
+  font-weight: 500;
+  color: var(--forest);
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: var(--forest-deep);
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+  font-family: inherit;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.6em 1.2em;
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:focus-visible {
+  outline: 2px solid var(--forest-deep);
+  outline-offset: 2px;
 }

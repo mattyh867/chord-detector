@@ -20,28 +20,46 @@ function MidiInput({ onMidiNote, playedNotes, resetNotes }) {
   if (!midiSupported) {
     return (
       <div className="midi-input">
-        <div>Your browser does not support Web MIDI API.</div>
+        <div className="midi-unsupported">
+          Your browser does not support the Web MIDI API. You can still use the
+          on-screen piano below.
+        </div>
       </div>
     );
   }
 
   return (
     <div className="midi-input">
-      <p className="midi-status">MIDI Inputs: {midiInputs.length}</p>
-      <button 
-        onClick={resetNotes}
-        className="recording-button recording-button--idle"
-      >
-        Reset Notes
-      </button>
+      <div className="midi-toolbar">
+        <p className={`midi-status ${midiInputs.length === 0 ? 'midi-status--none' : ''}`}>
+          {midiInputs.length} MIDI {midiInputs.length === 1 ? 'input' : 'inputs'} connected
+        </p>
+        <button
+          onClick={resetNotes}
+          className="recording-button"
+          disabled={playedNotes.length === 0}
+        >
+          Reset notes
+        </button>
+      </div>
       <div className="recording-status">
         {playedNotes.length > 0 ? (
           <>
-            <p>Notes: {playedNotes.map(noteData => noteData.note).join(', ')}</p>
-            <p>Chord: {chord}</p>
+            <div className="readout">
+              <p className="readout-label">Notes</p>
+              <p className="readout-value">
+                {playedNotes.map(noteData => noteData.note).join(', ')}
+              </p>
+            </div>
+            <div className="readout">
+              <p className="readout-label">Chord</p>
+              <p className="readout-value readout-value--chord">{chord}</p>
+            </div>
           </>
         ) : (
-          <p>No notes played yet</p>
+          <p className="readout-empty">
+            Play some notes to identify a chord
+          </p>
         )}
       </div>
     </div>
